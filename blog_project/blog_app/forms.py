@@ -26,13 +26,11 @@ class SignupForm(UserCreationForm):
 class CreatePostForm(forms.Form):
     title = forms.CharField(max_length=200)
     content = forms.CharField(widget=forms.Textarea)
-    image = forms.ImageField(required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['title'].widget.attrs.update({'class': 'form-control'})
         self.fields['content'].widget.attrs.update({'class': 'form-control', 'rows': 7})
-        self.fields['image'].widget.attrs.update({'class': 'form-control', 'accept': 'image/*'})
 
 
 class CommentForm(forms.Form):

@@ -93,12 +93,11 @@ def signup_view(request):
 
 @login_required
 def create_post_view(request):
-    form = CreatePostForm(request.POST or None, request.FILES or None)
+    form = CreatePostForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         Post.objects.create(
             title=form.cleaned_data['title'],
             content=form.cleaned_data['content'],
-            image=form.cleaned_data.get('image'),
             author=request.user,
         )
         messages.success(request, 'Post created successfully.')
@@ -118,12 +117,10 @@ def edit_post_view(request, post_id):
         'title': post.title,
         'content': post.content,
     }
-    form = CreatePostForm(request.POST or None, request.FILES or None, initial=initial_data)
+    form = CreatePostForm(request.POST or None, initial=initial_data)
     if request.method == 'POST' and form.is_valid():
         post.title = form.cleaned_data['title']
         post.content = form.cleaned_data['content']
-        if form.cleaned_data.get('image'):
-            post.image = form.cleaned_data['image']
         post.save()
         messages.success(request, 'Post updated successfully.')
         return redirect('post_detail', post_id=post.id)
