@@ -1,0 +1,69 @@
+{% extends 'blog_app/base.html' %}
+
+{% block title %}{{ post.title }} | Blog App{% endblock %}
+
+{% block content %}
+<article class="card border-0 shadow-sm overflow-hidden">
+    {% if post.image %}
+    <img src="{{ post.image.url }}" class="w-100" alt="{{ post.title }} image">
+    {% else %}
+    <img src="https://picsum.photos/seed/post{{ post.id }}/1200/480" class="w-100" alt="Post image">
+    {% endif %}
+    <div class="card-body p-4 p-md-5">
+        <h1 class="h2 mb-3">{{ post.title }}</h1>
+        <p class="text-muted mb-4">
+            By <strong>{{ post.author.username }}</strong> | {{ post.created_at|date:'M d, Y' }}
+        </p>
+
+        <div class="d-flex gap-2 mb-4 flex-wrap">
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'toggle_like' post.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn {% if user_liked %}btn-warning{% else %}btn-outline-warning{% endif %} btn-sm">
+                    {% if user_liked %}Unlike{% else %}Like{% endif %} ({{ post.likes.count }})
+                </button>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline-warning btn-sm">Login to Like ({{ post.likes.count }})</a>
+            {% endif %}
+
+            {% if user.is_authenticated and user == post.author %}
+            <a href="{% url 'edit_post' post.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+            <form method="post" action="{% url 'delete_post' post.id %}" onsubmit="return confirm('Delete this post?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+            </form>
+            {% endif %}
+        </div>
+
+        <div class="post-content">
+            {{ post.content|linebreaks }}
+        </div>
+
+        <section class="mt-5">
+            <h2 class="h5">Comments ({{ comments|length }})</h2>
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'add_comment' post.id %}" class="mb-4">
+                {% csrf_token %}
+                {{ comment_form.content }}
+                <button type="submit" class="btn btn-primary btn-sm mt-2">Add Comment</button>
+            </form>
+            {% else %}
+            <p class="text-muted">Please <a href="{% url 'login' %}">login</a> to comment.</p>
+            {% endif %}
+
+            {% if comments %}
+                {% for comment in comments %}
+                <div class="border rounded p-3 mb-3 comment-item">
+                    <p class="mb-1">{{ comment.content|linebreaksbr }}</p>
+                    <small class="text-muted">By {{ comment.user.username }} | {{ comment.created_at|date:'M d, Y H:i' }}</small>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p class="text-muted">No comments yet.</p>
+            {% endif %}
+        </section>
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary mt-4">Back to Home</a>
+    </div>
+</article>
+{% endblock %}

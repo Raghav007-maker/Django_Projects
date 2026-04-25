@@ -1,0 +1,44 @@
+body {
+    background-color: #f8fafc;
+    color: #212529;
+}
+
+body.dark-mode {
+    background-color: #0f172a;
+    color: #e2e8f0;
+}
+
+body.dark-mode .card,
+body.dark-mode .comment-item {
+    background-color: #1e293b;
+    color: #e2e8f0;
+    border-color: #334155;
+}
+
+body.dark-mode .text-muted {
+    color: #94a3b8 !important;
+}
+
+body.dark-mode .navbar,
+body.dark-mode footer {
+    background-color: #0b1220 !important;
+    border-color: #1f2937 !important;
+}
+
+.post-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+}
+
+.post-content {
+    line-height: 1.75;
+    color: #243447;
+}
+
+body.dark-mode .post-content {
+    color: #dbeafe;
+}

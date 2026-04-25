@@ -1,0 +1,25 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Django runtime files
+*.sqlite3
+media/
+staticfiles/
+
+# Secrets and environment files
+.env
+.env.*
+*.pem
+*.key
+*.p12
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/

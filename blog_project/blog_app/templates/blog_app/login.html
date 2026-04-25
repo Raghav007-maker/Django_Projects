@@ -1,0 +1,39 @@
+{% extends 'blog_app/base.html' %}
+
+{% block title %}Login | Blog App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h4 mb-4 text-center">Login</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label" for="id_username">Username</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger small mt-1">{{ form.username.errors|join:', ' }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="id_password">Password</label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <div class="text-danger small mt-1">{{ form.password.errors|join:', ' }}</div>
+                        {% endif %}
+                    </div>
+                    {% if form.errors %}
+                        <div class="alert alert-danger">Invalid username or password.</div>
+                    {% endif %}
+                    {% if form.non_field_errors %}
+                        <div class="text-danger small mb-3">{{ form.non_field_errors|join:', ' }}</div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

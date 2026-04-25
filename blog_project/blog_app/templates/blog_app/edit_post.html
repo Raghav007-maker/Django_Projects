@@ -1,0 +1,32 @@
+{% extends 'blog_app/base.html' %}
+
+{% block title %}Edit Post | Blog App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h4 mb-4">Edit Post</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label" for="id_title">Title</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="id_content">Content</label>
+                        {{ form.content }}
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="id_image">Change Image</label>
+                        {{ form.image }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Post</button>
+                    <a href="{% url 'post_detail' post.id %}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
